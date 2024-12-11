@@ -67,11 +67,12 @@ const nextHead = state => state.snake.length == 0
 const nextSnake = state => willCrash(state) ? [] : (willEatAppleOrSuperApple(state) ? enlargeSnake(state) : [nextHead(state)].concat(dropLast(state.snake)));
 
 // const nextFriendSnake = state => nextSnake(snakeFromFriendSnake(state));
+
 // // Randomness
-// const rndPos = table => ({
-//     x: rnd(0)(table.cols - 1),
-//     y: rnd(0)(table.rows - 1)
-// })
+const rndPos = table => ({
+    x: rnd(0)(table.cols - 1),
+    y: rnd(0)(table.rows - 1)
+})
 
 // const nextFriendMoves = state => nextMoves(snakeFromFriendSnake(state));
 
