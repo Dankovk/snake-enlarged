@@ -19,9 +19,7 @@ const draw = () => {
   state.snake.map(p => ctx.fillRect(x(p.x), y(p.y), x(1), y(1)))
 
 
-  // draw friend snake
-  ctx.fillStyle = 'rgb(23,0,200)'
-  state.friendSnake.map(p => ctx.fillRect(x(p.x), y(p.y), x(1), y(1)))
+
 
   // draw apples
   ctx.fillStyle = 'rgb(255,50,0)'
@@ -37,11 +35,6 @@ const draw = () => {
     ctx.fillRect(0, 0, canvas.width, canvas.height)
   }
 
-  // add friend crash
-  if (state.friendSnake.length == 0) {
-    ctx.fillStyle = 'rgb(255,0,0)'
-    ctx.fillRect(0, 0, canvas.width, canvas.height)
-  }
 }
 
 // Game loop update
@@ -58,14 +51,14 @@ const step = t1 => t2 => {
 // Key events
 window.addEventListener('keydown', e => {
   switch (e.key) {
-    case 'w': state = enqueueFriend(state, state.friendIsSuper ? SOUTH : NORTH); break
-    case 'a': state = enqueueFriend(state, state.friendIsSuper ? EAST : WEST);  break
-    case 's': state = enqueueFriend(state, state.friendIsSuper ? NORTH : SOUTH); break
-    case 'd': state = enqueueFriend(state, state.friendIsSuper ? WEST :EAST);  break
-    case 'ArrowUp':    state = enqueue(state, state.isSuper ? SOUTH : NORTH); break
-    case 'ArrowLeft':  state = enqueue(state, state.isSuper ? EAST : WEST);  break
-    case 'ArrowDown':  state = enqueue(state, state.isSuper ? NORTH : SOUTH); break
-    case 'ArrowRight': state = enqueue(state, state.isSuper ? WEST :EAST);  break
+    case 'w': state = enqueueFriend(state,  NORTH); break
+    case 'a': state = enqueueFriend(state,  WEST);  break
+    case 's': state = enqueueFriend(state,  SOUTH); break
+    case 'd': state = enqueueFriend(state, EAST);  break
+    case 'ArrowUp':    state = enqueue(state,  NORTH); break
+    case 'ArrowLeft':  state = enqueue(state,  WEST);  break
+    case 'ArrowDown':  state = enqueue(state,  SOUTH); break
+    case 'ArrowRight': state = enqueue(state, EAST);  break
   }
 })
 
