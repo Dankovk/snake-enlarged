@@ -15,7 +15,7 @@ const snakeFromFriendSnake = state => {
         moves: [...state.friendMoves],
         snake: [...state.friendSnake],
         isSuper: state.friendIsSuper,
-        inverted: true
+        inverted: false
     }
 };
 
@@ -24,9 +24,9 @@ const pointEq = p1 => p2 => p1.x == p2.x && p1.y == p2.y
 
 // Booleans
 const willEat = state => pointEq(nextHead(state))(state.apple)
-const willFriendEat = state => willEat(snakeFromFriendSnake(state))
+// const willFriendEat = state => willEat(snakeFromFriendSnake(state))
 const willEatSuperApple = state => pointEq(nextHead(state))(state.superApple)
-const willFriendEatSuperApple = state => willEatSuperApple(snakeFromFriendSnake(state))
+// const willFriendEatSuperApple = state => willEatSuperApple(snakeFromFriendSnake(state))
 
 
 const willSnakeHeadsIntersect = state =>  {
@@ -36,7 +36,7 @@ const willSnakeHeadsIntersect = state =>  {
 const willCrash = state => {
     return state.snake.find(pointEq(nextHead(state))) || willSnakeHeadsIntersect(state)
 }
-const friendWillCrash = state => willCrash(snakeFromFriendSnake(state))
+// const friendWillCrash = state => willCrash(snakeFromFriendSnake(state))
 const validMove = move => state => state.moves[0].x + move.x != 0 || state.moves[0].y + move.y != 0
 
 // Next values based on state
@@ -51,7 +51,7 @@ const nextSuper = (state) => {
     }
 }
 
-const nextFriendSuper = (state) => nextSuper(snakeFromFriendSnake(state));
+// const nextFriendSuper = (state) => nextSuper(snakeFromFriendSnake(state));
 const nextHead = state => state.snake.length == 0
     ? {x: 2, y: 2}
     : {
@@ -66,14 +66,14 @@ const nextFriendHead = (state) => {
 
 const nextSnake = state => willCrash(state) ? [] : (willEatAppleOrSuperApple(state) ? enlargeSnake(state) : [nextHead(state)].concat(dropLast(state.snake)));
 
-const nextFriendSnake = state => nextSnake(snakeFromFriendSnake(state));
-// Randomness
-const rndPos = table => ({
-    x: rnd(0)(table.cols - 1),
-    y: rnd(0)(table.rows - 1)
-})
+// const nextFriendSnake = state => nextSnake(snakeFromFriendSnake(state));
+// // Randomness
+// const rndPos = table => ({
+//     x: rnd(0)(table.cols - 1),
+//     y: rnd(0)(table.rows - 1)
+// })
 
-const nextFriendMoves = state => nextMoves(snakeFromFriendSnake(state));
+// const nextFriendMoves = state => nextMoves(snakeFromFriendSnake(state));
 
 
 const enlargeSnake = state => [nextHead(state)].concat(state.isSuper ? [...state.snake, ...state.snake] : state.snake)
@@ -89,9 +89,9 @@ const initialState = () => ({
     apple: {x: 16, y: 2},
     superApple: {x: 8, y: 18},
     isSuper: false,
-    friendMoves: [NORTH],
-    friendSnake: [ {x: 10, y: 20}, {x: 11, y: 20}],
-    friendIsSuper: false
+    // friendMoves: [NORTH],
+    // friendSnake: [ {x: 10, y: 20}, {x: 11, y: 20}],
+    // friendIsSuper: false
 });
 
 const next = spec({
@@ -102,9 +102,9 @@ const next = spec({
     apple: nextApple,
     superApple: nextSuperApple,
     isSuper: nextSuper,
-    friendSnake: nextFriendSnake,
-    friendMoves: nextFriendMoves,
-    friendIsSuper: nextFriendSuper
+    // friendSnake: nextFriendSnake,
+    // friendMoves: nextFriendMoves,
+    // friendIsSuper: nextFriendSuper
 })
 
 const enqueueFriend = (state, move) => validMove(move)(snakeFromFriendSnake(state)) ? merge(state)({friendMoves: state.friendMoves.concat([move]), inverted: false}) : state;
